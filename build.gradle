@@ -1,0 +1,279 @@
+plugins {
+	id "com.crystaelix.loom" version "1.10.0"
+	id "eclipse"
+	id "idea"
+	id "maven-publish"
+	id "net.kyori.blossom" version "[1,2)"
+	id "me.modmuss50.mod-publish-plugin" version "0.8.4"
+}
+
+repositories {
+	mavenCentral()
+	flatDir {
+		dirs "libs"
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.parchmentmc.net/"
+			}
+		}
+		filter {
+			includeGroup "org.parchmentmc.data"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.nucleoid.xyz/"
+			}
+		}
+		filter {
+			includeGroup "eu.pb4"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.terraformersmc.com/"
+			}
+		}
+		filter {
+			includeGroup "com.terraformersmc"
+			includeGroup "com.terraformersmc.terraform-api"
+			includeGroup "dev.emi"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.blamejared.com/"
+			}
+		}
+		filter {
+			includeGroup "mezz.jei"
+			includeGroup "vazkii.patchouli"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.crystaelix.com/releases/"
+			}
+		}
+		filter {
+			includeGroup "thelm.jeidrawables"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.architectury.dev/"
+			}
+		}
+		filter {
+			includeGroup "dev.architectury"
+			includeGroup "me.shedaniel.cloth"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.ladysnake.org/releases/"
+			}
+		}
+		filter {
+			includeGroup "dev.onyxstudios.cardinal-components-api"
+			includeGroup "io.github.ladysnake"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://maven.jamieswhiteshirt.com/libs-release/"
+			}
+		}
+		filter {
+			includeGroup "com.jamieswhiteshirt"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://cursemaven.com/"
+			}
+		}
+		filter {
+			includeGroup "curse.maven"
+		}
+	}
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://jitpack.io/"
+			}
+		}
+		filter {
+			includeGroup "com.github.emilyploszaj"
+			includeGroup "com.github.Virtuoel"
+		}
+	}
+}
+
+def mcVersion = "1.18.2"
+def modName = "BewitchmentJEI"
+def modId = "bewitchmentjei"
+def specVersion = "18.2"
+def vendor = "thelm"
+
+group = "thelm.bewitchmentjei"
+version = "18.2.0"
+
+archivesBaseName = modName
+
+sourceSets {
+	main
+}
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+		vendor = JvmVendorSpec.AZUL
+	}
+	withSourcesJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+	options.encoding = "UTF-8"
+}
+
+loom {
+	silentMojangMappingsLicense()
+	mixin.defaultRefmapName = "${modId}.refmap.json"
+	runs {
+		configureEach {
+			property "fabric.log.console.level", "debug"
+		}
+		client {
+			programArg "--username=Dev"
+		}
+		server
+	}
+}
+
+dependencies {
+	// Log4j
+	implementation "org.apache.logging.log4j:log4j-core:2.24.3"
+
+	// Minecraft
+	minecraft "com.mojang:minecraft:1.18.2"
+	mappings loom.layered {
+		mappings "net.fabricmc:yarn:1.18.2+build.4:v2"
+		parchment "org.parchmentmc.data:parchment-1.18.2:2022.11.06@zip"
+	}
+	modImplementation "net.fabricmc:fabric-loader:0.17.0"
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.77.0+1.18.2"
+	modImplementation "eu.pb4:placeholder-api:1.1.3+1.17.1"
+	modImplementation "com.terraformersmc:modmenu:3.2.5"
+
+	// JEI
+	modImplementation("mezz.jei:jei-1.18.2-fabric:10.2.1.1009") {transitive = false}
+	include(modImplementation("thelm.jeidrawables:JEIDrawables-Fabric:18.2.4"))
+
+	// Bewitchment External Dependencies
+	modImplementation "me.shedaniel.cloth:cloth-config-fabric:6.5.133"
+	implementation "me.zeroeightsix:fiber:0.23.0-2"
+	modImplementation "vazkii.patchouli:Patchouli:1.18.2-71.1-FABRIC"
+	modImplementation("com.github.Virtuoel:Pehkui:3.8.0") {exclude group: "net.fabricmc.fabric-api"}
+	modImplementation "dev.emi:trinkets:3.3.1"
+
+	// Bewitchment Included Dependencies
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-api:4.2.0"
+	modImplementation("me.lucko:fabric-permissions-api:0.3.3") {exclude group: "net.fabricmc.fabric-api"}
+	modImplementation("io.github.ladysnake:impersonate:2.5.0") {exclude group: "net.fabricmc.fabric-api"}
+	modImplementation "io.github.ladysnake:PlayerAbilityLib:1.5.1"
+	modImplementation "com.jamieswhiteshirt:reach-entity-attributes:2.2.0"
+	modImplementation "com.github.emilyploszaj:step-height-entity-attribute:1.0.1"
+	modImplementation "com.terraformersmc.terraform-api:terraform-wood-api-v1:3.1.0"
+
+	// Bewitchment
+	modImplementation "curse.maven:bewitchment-394915:3860751"
+}
+
+def replacements = [
+	"0@VERSION@": version
+]
+
+blossom {
+	replaceToken(replacements)
+}
+
+processResources {
+	inputs.properties(replacements)
+	filesMatching(["mcmod.info", "META-INF/mods.toml", "META-INF/neoforge.mods.toml", "fabric.mod.json"]) {
+		filter {
+			it.replace(replacements)
+		}
+	}
+}
+
+def manifestAttributes = [
+	"Specification-Title": modName,
+	"Specification-Vendor": vendor,
+	"Specification-Version": specVersion,
+	"Implementation-Title": archivesBaseName,
+	"Implementation-Version": version,
+	"Implementation-Vendor": vendor
+]
+
+jar {
+	manifest.attributes(manifestAttributes)
+}
+
+sourcesJar {
+	manifest.attributes(manifestAttributes)
+}
+
+publishing {
+	publications {
+		register("mavenJava", MavenPublication) {
+			artifactId = archivesBaseName
+			artifact remapJar
+			artifact remapSourcesJar
+		}
+	}
+	repositories {
+		if(project.hasProperty("CrystaelixMavenUsername") && project.hasProperty("CrystaelixMavenPassword")) {
+			maven {
+				name = "CrystaelixMaven"
+				url = "https://maven.crystaelix.com/releases/"
+				credentials(PasswordCredentials)
+			}
+		}
+	}
+}
+
+publishMods {
+	file = remapJar.archiveFile
+	version = displayName = project.version
+	changelog = file("changelog.md").text
+	type = STABLE
+	modLoaders.add("fabric")
+	additionalFiles.from(remapSourcesJar.archiveFile)
+
+	curseforge {
+		accessToken = providers.gradleProperty("curseforge.token")
+		projectId = "1324144"
+		minecraftVersions.add(mcVersion)
+		requires "jei", "bewitchment"
+		incompatible "roughly-enough-items-hacks"
+	}
+
+	modrinth {
+		accessToken = providers.gradleProperty("modrinth.token")
+		projectId = "crCTnaxN"
+		minecraftVersions.add(mcVersion)
+		requires "jei", "bewitchment"
+		incompatible "roughly-enough-items-hacks"
+	}
+}

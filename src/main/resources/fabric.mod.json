@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "bewitchmentjei",
+	"version": "0@VERSION@",
+	"name": "BewitchmentJEI",
+	"description": "An addon to Bewitchment that adds JEI support.",
+	"authors": [
+		"TheLMiffy1111"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/bewitchmentjei",
+		"sources": "https://github.com/TheLMiffy1111/BewitchmentJEI",
+		"issues": "https://github.com/TheLMiffy1111/BewitchmentJEI/issues"
+	},
+	"license": "MIT",
+	"icon": "bewitchmentjei.logo.png",
+	"environment": "client",
+	"entrypoints": {
+		"jei_mod_plugin": [
+			"thelm.bewitchmentjei.BewitchmentJEI"
+		]
+	},
+	"depends": {
+		"minecraft": ">=1.18.2- <1.19-",
+		"jei": "*",
+		"jeidrawables": "*",
+		"bewitchment": "*"
+	},
+	"conflicts": {
+		"rei_plugin_compatibilities": "*"
+	}
+}
