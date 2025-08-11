@@ -1,18 +1,17 @@
 package thelm.bewitchmentjei.recipe.category;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import moriyashiine.bewitchment.common.recipe.OilRecipe;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class OilCategory extends AbstractRecipeCategory<OilRecipe> {
 
-	public static final Text TITLE = Text.translatable("rei.bewitchment.oil_crafting");
+	public static final Text TITLE = Text.translatable("emi.category.bewitchment.oil_crafting");
 
 	public OilCategory() {
 		super(BewitchmentJEI.OIL, TITLE);
@@ -33,11 +32,11 @@ public class OilCategory extends AbstractRecipeCategory<OilRecipe> {
 		for(int i = 0; i < recipe.input.size(); i++) {
 			addItem(builder, RecipeIngredientRole.INPUT, 1 + i % 2 * 18, 1 + i / 2 * 18, recipe.input.get(i), JEIDrawables.SLOT);
 		}
-		addItem(builder, RecipeIngredientRole.OUTPUT, 75, 10, recipe.getOutput(), JEIDrawables.OUTPUT_SLOT);
+		addItem(builder, RecipeIngredientRole.OUTPUT, 75, 10, recipe.getOutput(registryAccess()), JEIDrawables.OUTPUT_SLOT);
 	}
 
 	@Override
-	public void draw(OilRecipe recipe, IRecipeSlotsView recipeSlotsView, MatrixStack poseStack, double mouseX, double mouseY) {
-		JEIDrawables.RECIPE_ARROW.draw(poseStack, 42, 9);
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, OilRecipe recipe, IFocusGroup focuses) {
+		builder.addDrawable(JEIDrawables.RECIPE_ARROW, 42, 9);
 	}
 }

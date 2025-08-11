@@ -3,11 +3,10 @@ package thelm.bewitchmentjei.recipe.category;
 import java.util.List;
 
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import moriyashiine.bewitchment.common.recipe.CauldronBrewingRecipe;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -18,7 +17,7 @@ import thelm.jeidrawables.JEIDrawables;
 
 public class CauldronBrewingCategory extends AbstractRecipeCategory<CauldronBrewingRecipe> {
 
-	public static final Text TITLE = Text.translatable("rei.bewitchment.cauldron_brewing");
+	public static final Text TITLE = Text.translatable("emi.category.bewitchment.cauldron_brewing");
 
 	public CauldronBrewingCategory() {
 		super(BewitchmentJEI.CAULDRON_BREWING, TITLE);
@@ -45,7 +44,7 @@ public class CauldronBrewingCategory extends AbstractRecipeCategory<CauldronBrew
 	}
 
 	@Override
-	public void draw(CauldronBrewingRecipe recipe, IRecipeSlotsView recipeSlotsView, MatrixStack poseStack, double mouseX, double mouseY) {
-		JEIDrawables.RECIPE_ARROW.draw(poseStack, 24, 4);
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, CauldronBrewingRecipe recipe, IFocusGroup focuses) {
+		builder.addDrawable(JEIDrawables.RECIPE_ARROW, 24, 4);
 	}
 }

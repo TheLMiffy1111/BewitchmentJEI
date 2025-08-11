@@ -11,6 +11,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.registration.ISubtypeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
+import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.recipe.AthameDropRecipe;
 import moriyashiine.bewitchment.common.recipe.AthameStrippingRecipe;
 import moriyashiine.bewitchment.common.recipe.CauldronBrewingRecipe;
@@ -22,7 +23,6 @@ import moriyashiine.bewitchment.common.registry.BWObjects;
 import moriyashiine.bewitchment.common.registry.BWRecipeTypes;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.util.Identifier;
 import thelm.bewitchmentjei.ingredient.subtype.ContractItemSubtypeInterpreter;
@@ -42,13 +42,13 @@ public class BewitchmentJEI implements IModPlugin {
 	public static IJeiHelpers jeiHelpers;
 	public static IJeiRuntime jeiRuntime;
 
-	public static final RecipeType<AthameStrippingRecipe> ATHAME_STRIPPING = new RecipeType<>(new Identifier("bewitchment:athame_stripping"), AthameStrippingRecipe.class);
-	public static final RecipeType<AthameDropRecipe> ATHAME_DROP = new RecipeType<>(new Identifier("bewitchment:athame_drop"), AthameDropRecipe.class);
-	public static final RecipeType<RitualRecipe> RITUAL = new RecipeType<>(new Identifier("bewitchment:rituals"), RitualRecipe.class);
-	public static final RecipeType<OilRecipe> OIL = new RecipeType<>(new Identifier("bewitchment:oil_crafting"), OilRecipe.class);
-	public static final RecipeType<CauldronBrewingRecipe> CAULDRON_BREWING = new RecipeType<>(new Identifier("bewitchment:cauldron_brewing"), CauldronBrewingRecipe.class);
-	public static final RecipeType<IncenseRecipe> INCENSE = new RecipeType<>(new Identifier("bewitchment:incenses"), IncenseRecipe.class);
-	public static final RecipeType<CurseRecipe> CURSE = new RecipeType<>(new Identifier("bewitchment:curses"), CurseRecipe.class);
+	public static final RecipeType<AthameStrippingRecipe> ATHAME_STRIPPING = new RecipeType<>(Bewitchment.id("athame_stripping"), AthameStrippingRecipe.class);
+	public static final RecipeType<AthameDropRecipe> ATHAME_DROP = new RecipeType<>(Bewitchment.id("athame_drop"), AthameDropRecipe.class);
+	public static final RecipeType<RitualRecipe> RITUAL = new RecipeType<>(Bewitchment.id("rituals"), RitualRecipe.class);
+	public static final RecipeType<OilRecipe> OIL = new RecipeType<>(Bewitchment.id("oil_crafting"), OilRecipe.class);
+	public static final RecipeType<CauldronBrewingRecipe> CAULDRON_BREWING = new RecipeType<>(Bewitchment.id("cauldron_brewing"), CauldronBrewingRecipe.class);
+	public static final RecipeType<IncenseRecipe> INCENSE = new RecipeType<>(Bewitchment.id("incenses"), IncenseRecipe.class);
+	public static final RecipeType<CurseRecipe> CURSE = new RecipeType<>(Bewitchment.id("curses"), CurseRecipe.class);
 
 	@Override
 	public Identifier getPluginUid() {
@@ -103,15 +103,19 @@ public class BewitchmentJEI implements IModPlugin {
 			return;
 		}
 
-		registration.addRecipeCatalyst(new ItemStack(BWObjects.ATHAME), ATHAME_STRIPPING, ATHAME_DROP);
-		registration.addRecipeCatalyst(new ItemStack(BWObjects.GOLDEN_CHALK), RITUAL);
-		registration.addRecipeCatalyst(new ItemStack(BWObjects.WITCH_CAULDRON), OIL, CAULDRON_BREWING);
-		registration.addRecipeCatalyst(new ItemStack(BWObjects.BRAZIER), INCENSE, CURSE);
+		registration.addRecipeCatalyst(BWObjects.ATHAME, ATHAME_STRIPPING, ATHAME_DROP);
+		registration.addRecipeCatalyst(BWObjects.GOLDEN_CHALK, RITUAL);
+		registration.addRecipeCatalyst(BWObjects.WITCH_CAULDRON, OIL, CAULDRON_BREWING);
+		registration.addRecipeCatalyst(BWObjects.BRAZIER, INCENSE, CURSE);
 	}
 
 	public boolean checkDisabled() {
-		if(FabricLoader.getInstance().isModLoaded("rei_plugin_compatibilities")) {
-			LOGGER.warn("BewitchmentJEI is disabled with REIPC as Bewitchment has native REI support");
+		if(FabricLoader.getInstance().isModLoaded("emi")) {
+			LOGGER.warn("BewitchmentJEI is disabled with EMI as Bewitchment has native EMI support");
+			return true;
+		}
+		if(FabricLoader.getInstance().isModLoaded("bewitchment-rei") && FabricLoader.getInstance().isModLoaded("rei_plugin_compatibilities")) {
+			LOGGER.warn("BewitchmentJEI is disabled with Bewitchment REI and REIPC");
 			return true;
 		}
 		return false;

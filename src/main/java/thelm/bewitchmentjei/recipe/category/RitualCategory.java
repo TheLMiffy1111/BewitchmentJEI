@@ -1,16 +1,16 @@
 package thelm.bewitchmentjei.recipe.category;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.gui.widgets.IRecipeExtrasBuilder;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import moriyashiine.bewitchment.common.Bewitchment;
 import moriyashiine.bewitchment.common.recipe.RitualRecipe;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import thelm.bewitchmentjei.BewitchmentJEI;
@@ -22,11 +22,11 @@ import thelm.jeidrawables.gui.render.ScaledDrawable;
 
 public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 
-	public static final Text TITLE = Text.translatable("rei.bewitchment.rituals");
+	public static final Text TITLE = Text.translatable("emi.category.bewitchment.rituals");
 
-	public static final Identifier CHALK_NORMAL = new Identifier("bewitchment:textures/gui/patchouli/chalk/normal.png");
-	public static final Identifier CHALK_FIERY = new Identifier("bewitchment:textures/gui/patchouli/chalk/fiery.png");
-	public static final Identifier CHALK_ELDRITCH = new Identifier("bewitchment:textures/gui/patchouli/chalk/eldritch.png");
+	public static final Identifier CHALK_NORMAL = Bewitchment.id("textures/gui/patchouli/chalk/normal.png");
+	public static final Identifier CHALK_FIERY = Bewitchment.id("textures/gui/patchouli/chalk/fiery.png");
+	public static final Identifier CHALK_ELDRITCH = Bewitchment.id("textures/gui/patchouli/chalk/eldritch.png");
 	public static final IDrawable CHALK_NORMAL_OUTER = new ScaledDrawable(new ResourceDrawable(CHALK_NORMAL, 2, 2, 11, 11, 16, 16), 2);
 	public static final IDrawable CHALK_NORMAL_INNER = new ScaledDrawable(new ResourceDrawable(CHALK_NORMAL, 4, 4, 7, 7, 16, 16), 2);
 	public static final IDrawable CHALK_FIERY_OUTER = new ScaledDrawable(new ResourceDrawable(CHALK_FIERY, 2, 2, 11, 11, 16, 16), 2);
@@ -61,16 +61,7 @@ public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 	}
 
 	@Override
-	public void draw(RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, MatrixStack poseStack, double mouseX, double mouseY) {
-		TextRenderer font = font();
-		Text nameComponent = Text.translatable("ritual." + recipe.getId().toString().replaceAll("[:/]", "."));
-		Text costComponent = Text.translatable("bewitchment.tooltip.cost", recipe.cost);
-		font.draw(poseStack, nameComponent, getWidth() / 2 - font.getWidth(nameComponent) / 2, 0, 0x3F3F3F);
-		font.draw(poseStack, costComponent, getWidth() / 2 - font.getWidth(costComponent) / 2, getHeight() - 2 * font.fontHeight, 0x3F3F3F);
-		if(recipe.runningTime > 0) {
-			Text timeComponent = Text.translatable("bewitchment.tooltip.running_time", recipe.runningTime);
-			font.draw(poseStack, timeComponent, getWidth() / 2 - font.getWidth(timeComponent) / 2, getHeight() - font.fontHeight, 0x3F3F3F);
-		}
+	public void createRecipeExtras(IRecipeExtrasBuilder builder, RitualRecipe recipe, IFocusGroup focuses) {
 		if(!recipe.outer.isEmpty()) {
 			IDrawable chalkOuter = switch(recipe.outer) {
 			case "normal" -> CHALK_NORMAL_OUTER;
@@ -79,7 +70,7 @@ public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 			case "any" -> CHALK_ANY_OUTER;
 			default -> CHALK_UNKNOWN_OUTER;
 			};
-			chalkOuter.draw(poseStack, getWidth() / 2 - 11, 32);
+			builder.addDrawable(chalkOuter, getWidth() / 2 - 11, 32);
 		}
 		IDrawable chalkInner = switch(recipe.inner) {
 		case "normal" -> CHALK_NORMAL_INNER;
@@ -88,19 +79,29 @@ public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 		case "any" -> CHALK_ANY_INNER;
 		default -> CHALK_UNKNOWN_INNER;
 		};
-		chalkInner.draw(poseStack, getWidth() / 2 - 7, 36);
+		builder.addDrawable(chalkInner, getWidth() / 2 - 7, 36);
 	}
 
 	@Override
-	public List<Text> getTooltipStrings(RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+	public void draw(RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, DrawContext guiGraphics, double mouseX, double mouseY) {
+		TextRenderer font = font();
+		Text nameComponent = Text.translatable("ritual." + recipe.getId().toString().replaceAll("[:/]", "."));
+		Text costComponent = Text.translatable("bewitchment.tooltip.cost", recipe.cost);
+		guiGraphics.drawText(font, nameComponent, getWidth() / 2 - font.getWidth(nameComponent) / 2, 0, 0x3F3F3F, false);
+		guiGraphics.drawText(font, costComponent, getWidth() / 2 - font.getWidth(costComponent) / 2, getHeight() - 2 * font.fontHeight, 0x3F3F3F, false);
+		if(recipe.runningTime > 0) {
+			Text timeComponent = Text.translatable("bewitchment.tooltip.running_time", recipe.runningTime);
+			guiGraphics.drawText(font, timeComponent, getWidth() / 2 - font.getWidth(timeComponent) / 2, getHeight() - font.fontHeight, 0x3F3F3F, false);
+		}
+	}
+
+	@Override
+	public void getTooltip(ITooltipBuilder tooltip, RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		if(mouseX >= getWidth() / 2 - 11 && mouseX < getWidth() / 2 + 11 && mouseY >= 32 && mouseY < 54) {
-			List<Text> tooltip = new ArrayList<>(2);
 			tooltip.add(Text.translatable("bewitchment.tooltip.inner_circle", Text.translatable("chalk.bewitchment." + recipe.inner)));
 			if(!recipe.outer.isEmpty()) {
 				tooltip.add(Text.translatable("bewitchment.tooltip.outer_circle", Text.translatable("chalk.bewitchment." + recipe.outer)));
 			}
-			return tooltip;
 		}
-		return List.of();
 	}
 }
