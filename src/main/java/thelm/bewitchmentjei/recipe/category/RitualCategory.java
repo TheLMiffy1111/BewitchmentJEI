@@ -12,7 +12,6 @@ import moriyashiine.bewitchment.common.recipe.RitualRecipe;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
@@ -23,7 +22,7 @@ import thelm.jeidrawables.gui.render.ScaledDrawable;
 
 public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.rituals");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.rituals");
 
 	public static final Identifier CHALK_NORMAL = new Identifier("bewitchment:textures/gui/patchouli/chalk/normal.png");
 	public static final Identifier CHALK_FIERY = new Identifier("bewitchment:textures/gui/patchouli/chalk/fiery.png");
@@ -64,12 +63,12 @@ public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 	@Override
 	public void draw(RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, MatrixStack poseStack, double mouseX, double mouseY) {
 		TextRenderer font = font();
-		Text nameComponent = new TranslatableText("ritual." + recipe.getId().toString().replaceAll("[:/]", "."));
-		Text costComponent = new TranslatableText("bewitchment.tooltip.cost", recipe.cost);
+		Text nameComponent = Text.translatable("ritual." + recipe.getId().toString().replaceAll("[:/]", "."));
+		Text costComponent = Text.translatable("bewitchment.tooltip.cost", recipe.cost);
 		font.draw(poseStack, nameComponent, getWidth() / 2 - font.getWidth(nameComponent) / 2, 0, 0x3F3F3F);
 		font.draw(poseStack, costComponent, getWidth() / 2 - font.getWidth(costComponent) / 2, getHeight() - 2 * font.fontHeight, 0x3F3F3F);
 		if(recipe.runningTime > 0) {
-			Text timeComponent = new TranslatableText("bewitchment.tooltip.running_time", recipe.runningTime);
+			Text timeComponent = Text.translatable("bewitchment.tooltip.running_time", recipe.runningTime);
 			font.draw(poseStack, timeComponent, getWidth() / 2 - font.getWidth(timeComponent) / 2, getHeight() - font.fontHeight, 0x3F3F3F);
 		}
 		if(!recipe.outer.isEmpty()) {
@@ -96,9 +95,9 @@ public class RitualCategory extends AbstractRecipeCategory<RitualRecipe> {
 	public List<Text> getTooltipStrings(RitualRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
 		if(mouseX >= getWidth() / 2 - 11 && mouseX < getWidth() / 2 + 11 && mouseY >= 32 && mouseY < 54) {
 			List<Text> tooltip = new ArrayList<>(2);
-			tooltip.add(new TranslatableText("bewitchment.tooltip.inner_circle", new TranslatableText("chalk.bewitchment." + recipe.inner)));
+			tooltip.add(Text.translatable("bewitchment.tooltip.inner_circle", Text.translatable("chalk.bewitchment." + recipe.inner)));
 			if(!recipe.outer.isEmpty()) {
-				tooltip.add(new TranslatableText("bewitchment.tooltip.outer_circle", new TranslatableText("chalk.bewitchment." + recipe.outer)));
+				tooltip.add(Text.translatable("bewitchment.tooltip.outer_circle", Text.translatable("chalk.bewitchment." + recipe.outer)));
 			}
 			return tooltip;
 		}

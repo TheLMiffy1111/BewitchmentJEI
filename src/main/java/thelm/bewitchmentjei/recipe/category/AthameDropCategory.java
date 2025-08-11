@@ -11,13 +11,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.SpawnEggItem;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class AthameDropCategory extends AbstractRecipeCategory<AthameDropRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.athame_drops");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.athame_drops");
 
 	public AthameDropCategory() {
 		super(BewitchmentJEI.ATHAME_DROP, TITLE);

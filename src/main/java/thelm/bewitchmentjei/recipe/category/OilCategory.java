@@ -7,13 +7,12 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import moriyashiine.bewitchment.common.recipe.OilRecipe;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class OilCategory extends AbstractRecipeCategory<OilRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.oil_crafting");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.oil_crafting");
 
 	public OilCategory() {
 		super(BewitchmentJEI.OIL, TITLE);

@@ -8,13 +8,12 @@ import moriyashiine.bewitchment.common.recipe.IncenseRecipe;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class IncenseCategory extends AbstractRecipeCategory<IncenseRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.incenses");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.incenses");
 
 	public IncenseCategory() {
 		super(BewitchmentJEI.INCENSE, TITLE);

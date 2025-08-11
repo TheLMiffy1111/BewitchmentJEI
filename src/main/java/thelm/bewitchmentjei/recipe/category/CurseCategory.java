@@ -9,13 +9,12 @@ import moriyashiine.bewitchment.common.registry.BWRegistries;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class CurseCategory extends AbstractRecipeCategory<CurseRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.curses");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.curses");
 
 	public CurseCategory() {
 		super(BewitchmentJEI.CURSE, TITLE);
@@ -23,7 +22,7 @@ public class CurseCategory extends AbstractRecipeCategory<CurseRecipe> {
 
 	@Override
 	public int getWidth() {
-		return 108;
+		return 72;
 	}
 
 	@Override
@@ -42,8 +41,8 @@ public class CurseCategory extends AbstractRecipeCategory<CurseRecipe> {
 	@Override
 	public void draw(CurseRecipe recipe, IRecipeSlotsView recipeSlotsView, MatrixStack poseStack, double mouseX, double mouseY) {
 		TextRenderer font = font();
-		Text nameComponent = new TranslatableText("curse." + BWRegistries.CURSES.getId(recipe.curse).toString().replace(":", "."));
-		Text costComponent = new TranslatableText("bewitchment.tooltip.cost", recipe.cost);
+		Text nameComponent = Text.translatable("curse." + BWRegistries.CURSES.getId(recipe.curse).toString().replace(":", "."));
+		Text costComponent = Text.translatable("bewitchment.tooltip.cost", recipe.cost);
 		font.draw(poseStack, nameComponent, getWidth() / 2 - font.getWidth(nameComponent) / 2, 0, 0x3F3F3F);
 		font.draw(poseStack, costComponent, getWidth() / 2 - font.getWidth(costComponent) / 2, getHeight() - font.fontHeight, 0x3F3F3F);
 	}

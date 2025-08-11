@@ -13,7 +13,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 import thelm.jeidrawables.gui.render.BlankDrawable;
 
 public abstract class AbstractRecipeCategory<R> implements IRecipeCategory<R> {
@@ -34,16 +33,6 @@ public abstract class AbstractRecipeCategory<R> implements IRecipeCategory<R> {
 	}
 
 	@Override
-	public Identifier getUid() {
-		return recipeType.getUid();
-	}
-
-	@Override
-	public Class<? extends R> getRecipeClass() {
-		return recipeType.getRecipeClass();
-	}
-
-	@Override
 	public RecipeType<R> getRecipeType() {
 		return recipeType;
 	}
@@ -53,8 +42,10 @@ public abstract class AbstractRecipeCategory<R> implements IRecipeCategory<R> {
 		return background;
 	}
 
+	@Override
 	public abstract int getWidth();
 
+	@Override
 	public abstract int getHeight();
 
 	@Override

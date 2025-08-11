@@ -13,13 +13,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class CauldronBrewingCategory extends AbstractRecipeCategory<CauldronBrewingRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.cauldron_brewing");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.cauldron_brewing");
 
 	public CauldronBrewingCategory() {
 		super(BewitchmentJEI.CAULDRON_BREWING, TITLE);

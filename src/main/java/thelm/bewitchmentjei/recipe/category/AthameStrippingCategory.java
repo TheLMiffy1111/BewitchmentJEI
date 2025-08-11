@@ -8,13 +8,12 @@ import moriyashiine.bewitchment.common.recipe.AthameStrippingRecipe;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import thelm.bewitchmentjei.BewitchmentJEI;
 import thelm.jeidrawables.JEIDrawables;
 
 public class AthameStrippingCategory extends AbstractRecipeCategory<AthameStrippingRecipe> {
 
-	public static final Text TITLE = new TranslatableText("rei.bewitchment.athame_stripping");
+	public static final Text TITLE = Text.translatable("rei.bewitchment.athame_stripping");
 
 	public AthameStrippingCategory() {
 		super(BewitchmentJEI.ATHAME_STRIPPING, TITLE);
