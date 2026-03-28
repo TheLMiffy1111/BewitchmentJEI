@@ -175,7 +175,7 @@ dependencies {
 
 	// JEI
 	modImplementation("mezz.jei:jei-1.18.2-fabric:10.2.1.1009") {transitive = false}
-	include(modImplementation("thelm.jeidrawables:JEIDrawables-Fabric:18.2.4"))
+	include(modImplementation("thelm.jeidrawables:JEIDrawables-Fabric:18.2.7"))
 
 	// Bewitchment External Dependencies
 	modImplementation "me.shedaniel.cloth:cloth-config-fabric:6.5.133"
